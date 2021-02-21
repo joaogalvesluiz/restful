@@ -1,16 +1,19 @@
-const http = require('http');
+const express = require("express");
+const consign = require("consign");
+const bodyParser = require("body-parser");
+const expressValidator = require("express-validator");
 
-let server = http.createServer((req, res) => {
+let app = express();
 
-  console.log('URL:', req.url);
-  console.log('URL:', req.method);
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(expressValidator());
 
-  res.end();
+consign()
+  .include("routes")
+  .include("utils")
+  .into(app);
 
-});
-
-server.listen(3000, '127.0.0.1', () => {
-
+app.listen(3000, "127.0.0.1", () => {
   console.log("servidor rodando");
-
 });
